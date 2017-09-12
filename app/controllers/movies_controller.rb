@@ -14,6 +14,14 @@ class MoviesController < ApplicationController
     @sort_by_title = false
     @sort_by_release_date = false
     
+    @all_ratings = Movie.get_ratings
+    @movies = Movie.all
+    
+    if not params[:ratings].nil?
+      ratings = params[:ratings].keys
+      @movies = Movie.where(rating: ratings)
+    end
+    
     if not params[:sort_by].nil?
       if params[:sort_by] == "title"
         @movies = Movie.order(:title)
@@ -25,8 +33,6 @@ class MoviesController < ApplicationController
       else
         @movies = Movie.all
       end
-    else
-      @movies = Movie.all
     end
   end
 
